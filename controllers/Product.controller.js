@@ -143,12 +143,9 @@ exports.findAllActive = (req, res) => {
 };
 // Retrieve all Products from the database.
 exports.findAllMinimum = (req, res) => {
-    const name = req.query.name;
-    var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
-
-    Product.findAll({ where: { deleted: false, stock: { [Op.gt]: sequelize.col("minimumQuantity") }, ...condition } })
+    sequelize.query('select * from Products where stock < Products.minimumQuantity')
     .then(data => {
-      res.send(data);
+      res.send(!!data?.length ? data[0] : []);
     })
     .catch(err => {
       res.status(500).send({
