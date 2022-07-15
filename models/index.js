@@ -23,6 +23,7 @@ db.rolePermissions = require("./RolePermissions.model.js")(sequelize, Sequelize)
 
 db.purchases = require("./Purchase.model.js")(sequelize, Sequelize);
 db.products = require("./Product.model.js")(sequelize, Sequelize);
+db.importProducts = require("./ImportProduct.model.js")(sequelize, Sequelize);
 db.people = require("./Person.model.js")(sequelize, Sequelize);
 db.orders = require("./Order.model.js")(sequelize, Sequelize);
 db.movements = require("./Movement.model.js")(sequelize, Sequelize);
@@ -44,6 +45,8 @@ db.movements.belongsTo(db.purchases);
 db.products.belongsTo(db.providers);
 db.products.hasMany(db.movements);
 db.providers.hasMany(db.products);
+
+db.productStock.belongsTo(db.products);
 
 db.providers.belongsToMany(db.providerLines, { through: 'ProviderProviderLines' });
 db.providerLines.belongsToMany(db.providers, { through: 'ProviderProviderLines' });

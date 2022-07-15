@@ -5,6 +5,7 @@ module.exports = app => {
     // Create a new Product
     router.post("/", products.create);
     router.post("/import", products.import);
+    router.put  ("/import/:id", products.updateImport);
     // Retrieve all products
     router.get("/", products.findAllActive);
     router.get("/minimum", products.findAllMinimum);
