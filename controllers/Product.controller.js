@@ -78,7 +78,10 @@ const importProduct = async (product) => {
             [Op.ne]: '',
           }
         },
-      }
+      },
+      order: [
+        ['name', 'ASC'],
+      ],
     });
 
     const productEntity = {
@@ -219,7 +222,7 @@ exports.findAllActive = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-    Product.findAll({ where: { deleted: false, ...condition } })
+    Product.findAll({ where: { deleted: false, ...condition }, order: [["name", "ASC"]] })
     .then(data => {
       res.send(data);
     })
@@ -242,23 +245,6 @@ exports.findAllMinimum = (req, res) => {
           err.message || "Some error occurred while retrieving Products."
       });
     });  
-};
-
-// Retrieve all Products from the database.
-exports.findAllActive = (req, res) => {
-  const name = req.query.name;
-  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
-
-  Product.findAll({ where: { deleted: false, ...condition } })
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving Products."
-    });
-  });  
 };
 
 // Find all Products including deleted
