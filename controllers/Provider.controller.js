@@ -91,6 +91,19 @@ exports.findOne = (req, res) => {
 // Update a Provider by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
+
+    if(!!req?.body?.ProviderLines?.length) {
+      const updatedProvider = Provider.findByPk(id).then(data => {
+        data.setProviderLines(req.body.ProviderLines);
+      });
+    }
+
+    if(!!req?.body?.ProviderBrands?.length) {
+      const updatedProvider = Provider.findByPk(id).then(data => {
+        data.setProviderBrands(req.body.ProviderBrands);
+      });
+    }
+
     Provider.update(req.body, {
         where: { id: id }
     })
